@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Transaction Summary</h1>
+    <p><strong>Total balance:</strong> ${{.TotalBalance}}</p>
+
+    <h2>Monthly Breakdown</h2>
+    <table>
+        <tr>
+            <th>Month</th>
+            <th>Number of Transactions</th>
+            <th>Average Credit Amount</th>
+            <th>Average Debit Amount</th>
+        </tr>
+        {{range .Summary}}
+        <tr>
+            <td>{{.Month}}</td>
+            <td>{{.NumTransactions}}</td>
+            <td>{{printf "$%.2f" .AverageCredit}}</td>
+            <td>{{printf "$%.2f" .AverageDebit}}</td>
+        </tr>
+        {{end}}
+    </table>
+</body>
+</html>

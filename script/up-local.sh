@@ -1,0 +1,1 @@
+BUILDKIT_PROGRESS=plain docker-compose -f deployment/local-test/docker-compose-local.yml up

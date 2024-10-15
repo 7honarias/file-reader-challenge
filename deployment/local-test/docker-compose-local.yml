@@ -1,0 +1,19 @@
+version: "3"
+services:
+  test-local:
+    image: file-reader-challenge:latest
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    env_file:
+      - ../../.env
+    ports:
+      - "9000:8080"
+    volumes:
+      - ../../.aws-lambda-rie:/aws-lambda
+    command: "/app/main"
+    entrypoint: /aws-lambda/aws-lambda-rie
+    environment:
+      - AWS_ACCESS_KEY_ID=your_access_key
+      - AWS_SECRET_ACCESS_KEY=your_secret_key
+      - AWS_BUCKET_NAME=your_bucket_name
