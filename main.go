@@ -18,7 +18,12 @@ func init() {
 }
 
 func handleRequest(ctx context.Context, name string) (string, error) {
-	transactions, err := reader.ReadTransactions(db.Conn, name)
+	var transactionReader reader.TransactionReader = &reader.TransactionReaderImpl{}
+	var ReportGenerator report.ReportGenerator = &report.ReportGeneratorImpl{}
+	var sender email.Sender = &email.OAuth2EmailSender{}
+
+
+	transactions, err := transactionReader.ReadTransactions(db.Conn, name)
 	if err != nil {
 		log.Fatalf(errors.TransactionFileNotFound, err)
 		return "", err
@@ -26,8 +31,7 @@ func handleRequest(ctx context.Context, name string) (string, error) {
 
 	totalBalance, summary := reader.CalculateSummary(transactions)
 
-	repo := report.GenerateReportData(totalBalance, summary)
-	var sender email.Sender = &email.OAuth2EmailSender{}
+	repo := ReportGenerator.GenerateReportData(totalBalance, summary)
 
 	if err := sender.SendMailWithOAuth2(repo); err != nil {
 		log.Fatalf(errors.EmailFaild, err)

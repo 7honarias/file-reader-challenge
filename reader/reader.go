@@ -13,7 +13,9 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func ReadTransactions(conn *pgx.Conn, fileName string) ([]models.Transaction, error) {
+type TransactionReaderImpl struct{}
+
+func (t *TransactionReaderImpl) ReadTransactions(conn *pgx.Conn, fileName string) ([]models.Transaction, error) {
 	file, err := os.Open(fileName)
 	if err != nil {
 		return nil, err
@@ -32,7 +34,6 @@ func ReadTransactions(conn *pgx.Conn, fileName string) ([]models.Transaction, er
 		id, _ := strconv.Atoi(record[0])
 		amount, _ := strconv.ParseFloat(record[2], 64)
 
-		
 		transaction := models.Transaction{
 			Id:          id,
 			Date:        record[1],
@@ -83,6 +84,7 @@ func CalculateSummary(transactions []models.Transaction) (float64, map[string]ma
 	return totalBalance, summary
 }
 
+// getMonth devuelve el mes a partir de una fecha en formato YYYY-MM-DD.
 func getMonth(date string) string {
 	parts := strings.Split(date, "-")
 	return parts[0]

@@ -9,7 +9,10 @@ import (
 	"path/filepath"
 )
 
-func GenerateReportData(totalBalance float64, summary map[string]map[string]float64) models.ReportData {
+
+type ReportGeneratorImpl struct{}
+
+func (s *ReportGeneratorImpl) GenerateReportData(totalBalance float64, summary map[string]map[string]float64) models.ReportData {
 	var report models.ReportData
 	report.TotalBalance = totalBalance
 
